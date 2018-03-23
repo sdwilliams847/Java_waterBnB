@@ -1,6 +1,5 @@
 package com.swilliams.waterbnb.controllers;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -78,5 +77,9 @@ public class UserController {
 			return "redirect:/users/new";
 		}
 	}
-
+	
+	@RequestMapping("/logout")
+	public String logout(HttpSession s) {
+		return uS.redirect();
+	}
 }

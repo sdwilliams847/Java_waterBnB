@@ -24,6 +24,7 @@
 		<h1>${user.firstName }</h1>
 		<h1>${user.lastName }</h1>
 		<h1>${user.email }</h1>
+		<h1>${user.host }</h1>
 		<h1>${user.password }</h1>
 	</c:forEach>
 

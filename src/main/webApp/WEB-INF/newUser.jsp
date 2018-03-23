@@ -14,29 +14,58 @@
 			<h2>${err.defaultMessage}</h2>
 		</c:forEach>
 	</c:if>
-	
 
 		<h1>Register!</h1>
         
 	<form:form action="/users/new" method="POST" modelAttribute="user">
-         <p>
-            <form:label path="email">Email:</form:label>
-            <form:input path="email"/>
+        <p>
+            <form:label path="firstName">First Name:
+            	<form:errors path="firstName"></form:errors>
+            	<form:input path="firstName"></form:input>
+            </form:label>
         </p>
         <p>
-            <form:label path="username">Username:</form:label>
-            <form:input path="username"/>
+            <form:label path="lastName">First Name:
+            	<form:errors path="lastName"></form:errors>
+            	<form:input path="lastName"></form:input>
+            </form:label>
         </p>
         <p>
-            <form:label path="password">Password:</form:label>
-            <form:password path="password"/>
+            <form:label path="email">Email:
+            	<form:errors path="email"></form:errors>
+            	<form:input path="email"></form:input>
+            </form:label>
         </p>
         <p>
-            <form:label path="confirm">Password Confirmation:</form:label>
-            <form:password path="confirm"/>
+            <form:label path="password">Password:
+	         	<form:errors path="password"></form:errors>
+	           	<form:password path="password"></form:password>
+            </form:label>
         </p>
+        <p>
+           	<form:select path="host">
+           		<form:option value="true">Host</form:option>
+           		<form:option value="false">Guest</form:option>
+           	</form:select>  
+        </p>
+
         <input type="submit" value="Register!"/>
     </form:form>
+    
+    <h1>Login</h1>
+    
+     <form method="POST" action="/users/login">
+        <p>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email"/>
+        </p>
+        <p>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password"/>
+        </p>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <input type="submit" value="Login!"/>
+    </form><br>
 
 </body>
 </html>
