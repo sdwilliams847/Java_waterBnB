@@ -22,7 +22,7 @@
 	<p>Name: ${listing.user.firstName} ${listing.user.lastName}</p>
 	<p>Size: ${listing.size}</p>
 	
-	<strong>Reviews: ( / 5)</strong><br><br>
+	<strong>Reviews: (${listing.average} / 5)</strong><br><br>
 	
 	<c:if test="${!user.host}"><a href="/listings/${listing.id}/review">Leave a Review</a></c:if>
 	

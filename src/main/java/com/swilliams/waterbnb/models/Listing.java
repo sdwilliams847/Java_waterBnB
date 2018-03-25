@@ -23,6 +23,8 @@ public class Listing {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
+	private double average;
+	
 	@Size(min=1, max=255, message="Address is required")
 	private String address;
 	
@@ -55,6 +57,16 @@ public class Listing {
 		this.updatedAt = new Date();
 	}
 	
+	
+	public double getAverage() {
+		return average;
+	}
+
+	public void setAverage(double average) {
+		this.average = average;
+	}
+
+
 	public List<Review> getReviews() {
 		return reviews;
 	}

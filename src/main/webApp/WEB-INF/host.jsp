@@ -23,7 +23,7 @@
 				<td>${listing.address}</td>
 				<td>${listing.size}</td>
 				<td>${listing.cost}</td>
-				<td>${listing.description}</td>
+				<td><a href="/listings/${listing.id}">See More</a></td>
 			</tr>
 		</c:forEach>
 	</table><br>

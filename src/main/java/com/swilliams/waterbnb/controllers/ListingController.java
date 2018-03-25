@@ -1,6 +1,7 @@
 package com.swilliams.waterbnb.controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -79,6 +80,7 @@ public class ListingController {
 				return "redirect:/listings/host";
 			}else {
 				listing.setUser(u);
+				listing.setAverage(0);
 				lS.create(listing);
 				return "redirect:/listings/host";
 			}
@@ -128,6 +130,18 @@ public class ListingController {
 			Optional<Listing> listing = lS.find(id);
 			Listing l = listing.get();
 			
+			review.setId(null);
+			List<Review> reviews = l.getReviews();
+			reviews.add(review);
+			
+			double sum = 0;
+			for(Review rev: reviews) {
+				sum += rev.getRating();
+			}
+			sum /= l.getReviews().size()+1;
+			l.setAverage(sum);
+			
+			lS.update(l);
 			review.setUser(u);
 			review.setListing(l);
 			rS.create(review);
@@ -136,9 +150,19 @@ public class ListingController {
 		}
 	}
 	
+	public boolean scrub(String needle,String haystack) {
+		needle = needle.toLowerCase();
+		for(int i=0;i<haystack.length()-needle.length()+1;i++) {
+			String res = haystack.substring(i,i+needle.length()).toLowerCase();
+			if(res.indexOf(needle) != -1) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	@RequestMapping("/search")
 	public String search(@RequestParam("search")String search,HttpSession session, Model model) {
-		search = search.toLowerCase();
 		
 		if(session.getAttribute("id") != null) {
 			Optional<User> user = uS.find((Long) session.getAttribute("id"));
@@ -149,14 +173,18 @@ public class ListingController {
 		ArrayList<Listing> allListings = lS.all();
 		ArrayList<Listing> listings = new ArrayList<Listing>();
 		
-		for(int i =0;i<allListings.size();i++) {
-			Listing listing = allListings.get(i);
-			CharSequence seq = search;
-			
-			if(listing.getAddress().contains(seq)) {
+		for(Listing listing: allListings) {
+			if(scrub(search,listing.getSize()) && !listings.contains(listing)) {
+				listings.add(listing);
+			}
+			if(scrub(search,listing.getAddress()) && !listings.contains(listing)) {
+				listings.add(listing);
+			}
+			if(scrub(search,Double.toString(listing.getCost())) && !listings.contains(listing)) {
 				listings.add(listing);
 			}
 		}
+		
 		model.addAttribute("listings", listings);
 		return "guest.jsp";
 	}
