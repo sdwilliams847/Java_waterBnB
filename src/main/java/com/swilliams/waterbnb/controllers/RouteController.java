@@ -1,11 +1,14 @@
 package com.swilliams.waterbnb.controllers;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.swilliams.waterbnb.models.User;
 import com.swilliams.waterbnb.services.UserService;
 
 @Controller
@@ -22,7 +25,13 @@ public class RouteController {
 		if(!uS.isValid(s)) {
 			return "redirect:/users/new";
 		}else {
-			return "redirect:/users";
+			Optional<User> user = uS.find((Long) s.getAttribute("id"));
+			User u = user.get();
+			if(u.isHost()) {
+				return "redirect:/listings/host";
+			}else {
+				return "redirect:/listings";
+			}
 		}
 	}
 }

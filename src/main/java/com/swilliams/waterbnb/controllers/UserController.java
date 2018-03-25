@@ -71,7 +71,11 @@ public class UserController {
 		}else {
 			if(uS.isMatch(password,user.getPassword())) {
 				uS.login(session, user.getId());
-				return "redirect:/users";
+				
+				if(user.isHost()) {
+					return "redirect:/listings/host";
+				}
+				return "redirect:/listings";
 			}
 			flash.addFlashAttribute("error", "Invalid Credentials");
 			return "redirect:/users/new";

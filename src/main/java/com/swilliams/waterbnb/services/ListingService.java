@@ -35,4 +35,5 @@ public class ListingService {
 	public void update(Listing listing) {
 		lR.save(listing);
 	}
+	
 }
